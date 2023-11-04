@@ -1,0 +1,38 @@
+{
+  "name": "genocide-watch-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db-generate-ts": "npx @edgedb/generate edgeql-js --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
+    "db-migrate-create": "edgedb migration create --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
+    "db-migrate-commit": "edgedb migrate --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
+    "dev": "nodemon -r dotenv/config ./service/index.ts",
+    "start": "ts-node -r dotenv/config ./service/index.ts",
+    "lint": "eslint . --ext .ts",
+    "ts": "ts-node -r dotenv/config"
+  },
+  "author": {
+      "name": "Tej Birring"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "edgedb": "^1.4.0",
+    "express": "^4.18.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@edgedb/generate": "^0.4.1",
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.52.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

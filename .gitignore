@@ -1,0 +1,15 @@
+# node.js dependencies
+node_modules
+
+# generate these manually (whenever schema changes) using: npx @edgedb/generate edgeql-js
+dbschema/edgeql-js
+
+# to store private credentials
+.credentials
+
+# env files
+.env
+.env.*
+
+# system files
+.DS_Store
