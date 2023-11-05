@@ -7,9 +7,9 @@
   },
   "main": "build/service/index.js",
   "scripts": {
-    "db-generate-ts": "npx @edgedb/generate edgeql-js --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
-    "db-migrate-create": "edgedb migration create --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
-    "db-migrate-commit": "edgedb migrate --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
+    "db-generate-ts": "source .env && npx @edgedb/generate edgeql-js --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
+    "db-migrate-create": "edgedb migration create --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
+    "db-migrate-commit": "edgedb migrate --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
     "dev:watch": "nodemon -r dotenv/config ./service/index.ts",
     "dev:start": "ts-node -r dotenv/config ./service/index.ts",
     "dev:lint": "eslint . --ext .ts",

@@ -5,7 +5,7 @@ node_modules
 build
 
 # generate these manually (whenever schema changes) using: npx @edgedb/generate edgeql-js
-dbschema/edgeql-js
+# dbschema/edgeql-js
 
 # to store private credentials
 .credentials
