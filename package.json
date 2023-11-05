@@ -8,8 +8,8 @@
   "main": "build/service/index.js",
   "scripts": {
     "db-generate-ts": "source .env && npx @edgedb/generate edgeql-js --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
-    "db-migrate-create": "edgedb migration create --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
-    "db-migrate-commit": "edgedb migrate --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
+    "db-migrate-create": "source .env && edgedb migration create --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
+    "db-migrate-commit": "source .env && edgedb migrate --dsn $EDGEDB_DSN --tls-ca-file $EDGEDB_TLS_CA_FILE --password",
     "dev:watch": "nodemon -r dotenv/config ./service/index.ts",
     "dev:start": "ts-node -r dotenv/config ./service/index.ts",
     "dev:lint": "eslint . --ext .ts",
@@ -32,6 +32,7 @@
     "@edgedb/generate": "^0.4.1",
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.20",
+    "@types/node": "^20.8.10",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
