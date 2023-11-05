@@ -1,6 +1,9 @@
 # node.js dependencies
 node_modules
 
+# built output
+build
+
 # generate these manually (whenever schema changes) using: npx @edgedb/generate edgeql-js
 dbschema/edgeql-js
 

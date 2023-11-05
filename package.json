@@ -2,15 +2,19 @@
   "name": "genocide-watch-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
+  "main": "build/service/index.js",
   "scripts": {
-    "db-generate-ts": "npx @edgedb/generate edgeql-js --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
-    "db-migrate-create": "edgedb migration create --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
-    "db-migrate-commit": "edgedb migrate --dsn edgedb://db.genocide.watch:5656 --tls-ca-file .credentials/certs/genocide-watch-chain.pem --password",
-    "dev": "nodemon -r dotenv/config ./service/index.ts",
-    "start": "ts-node -r dotenv/config ./service/index.ts",
-    "lint": "eslint . --ext .ts",
-    "ts": "ts-node -r dotenv/config"
+    "db-generate-ts": "npx @edgedb/generate edgeql-js --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
+    "db-migrate-create": "edgedb migration create --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
+    "db-migrate-commit": "edgedb migrate --dsn edgedb://db.genocide.watch:5656 --tls-ca-file certs/genocide-watch-db-chain.pem --password",
+    "dev:watch": "nodemon -r dotenv/config ./service/index.ts",
+    "dev:start": "ts-node -r dotenv/config ./service/index.ts",
+    "dev:lint": "eslint . --ext .ts",
+    "build": "rm -rf build && tsc",
+    "start": "node build/service/index.js"
   },
   "author": {
     "name": "Tej Birring"
@@ -22,7 +26,6 @@
     "dotenv": "^16.3.1",
     "edgedb": "^1.4.0",
     "express": "^4.18.2",
-    "ts-node": "^10.9.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -33,6 +36,7 @@
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
     "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
