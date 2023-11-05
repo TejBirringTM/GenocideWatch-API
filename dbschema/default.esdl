@@ -1,22 +1,18 @@
 module default {
-    type Base {
-        notes: array<str>;
+    scalar type ContentType extending enum<Image, Video, Audio, Document, Dataset>;
+
+    abstract type Base {
+        notes: str;
         tags: array<str>;
     }
 
-    type OnlinePresence {
-        linkedIn: str;
-        instagram: str;
-        facebook: str;
-        twittter: str;
-        website: str;
-        email: str;
-        rumble: str;
-        locals: str;
-        patreon: str;
+    type GenocideContext extending Base {
+        required slug: str;
+        required people: str;
+        mapDefaultGeoCoord: tuple<lat: float32, lng: float32>;
+        mapDefaultZoom: int16;
+        multi link testimonies := .<context[is Evidence];
     }
-
-    scalar type ContentType extending enum<Image, Video, Audio, Document, Dataset>;
 
     scalar type EvidenceType extending enum<
         DirectEvidencePhotographFootage, 
@@ -40,10 +36,12 @@ module default {
         IndirectEvidenceGovernmentReport,
         IndirectEvidencePublicRecord,
         IndirectEvidenceOther
->;
+    >;
 
+    # 
     type Evidence extending Base {
-        required objectPath: uuid {
+        # information about the uploaded evidence file
+        required contentURL: str {
             readonly := true;
         }
         required contentType: ContentType {
@@ -52,22 +50,41 @@ module default {
         required contentHash: str {
             readonly := true;
         }
+        # context that the evidence pertains to
+        required context: GenocideContext;
+        # information about the evidence
         required title: str;
         required evidenceType: EvidenceType;
-        producedDateTime: datetime;
-        producedGeoCoord: tuple<float32, float32>;
-
+        # spatiotemporal info
+        dateTime: datetime;
+        geoCoord: tuple<lat: float32, lng: float32>;
+        # contributors
         multi authors: Individual;
-        multi producers: Organisation;
+        multi individualPublishers: Individual;
+        multi organisationalPublishers: Organisation;
+    }
+    
+    # Contributors
+    abstract type OnlinePresence {
+        linkedIn: str;
+        instagram: str;
+        facebook: str;
+        twittter: str;
+        website: str;
+        email: str;
+        rumble: str;
+        locals: str;
+        patreon: str;
     }
 
     type Individual extending Base, OnlinePresence {
         required name: str;
-        link authored := .<authors[is Evidence];
+        multi link authored := .<authors[is Evidence];
+        multi link published := .<individualPublishers[is Evidence];
     }
 
     type Organisation extending Base, OnlinePresence {
         required name: str;
-        link produced := .<producers[is Evidence];
+        multi link published := .<organisationalPublishers[is Evidence];
     }
 }
