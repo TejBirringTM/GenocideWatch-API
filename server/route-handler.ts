@@ -2,7 +2,8 @@ import { UnknownKeysParam, ZodObject, ZodRawShape, ZodTypeAny } from "zod";
 import express from "express";
 import expressCore from "express-serve-static-core";
 import { BAD_REQUEST_RESPONSE, APIResponse, makeResponder, INTERNAL_SERVER_ERROR_RESPONSE } from "./response";
-import { Schema } from "./schema";
+import { SchemaArr, SchemaObj } from "./schema";
+import { httpResponseStatus } from "./http";
 
 
 type Request = express.Request;
@@ -32,18 +33,18 @@ export class RouteHandler<
     P,
 > {
     readonly description: string
-    readonly requestSchema: Schema<A,B,C,D>;
-    readonly responseSchema: Schema<E,F,G,H>;
-    readonly paramsSchema: Schema<I,J,K,L> | undefined;
-    readonly querySchema: Schema<M,N,O,P> | undefined;
-    readonly handler: (request: D, param?: L, query?: P) => Promise<APIResponse<H>>
+    readonly requestSchema: SchemaObj<A,B,C,D>;
+    readonly responseSchema: SchemaObj<E,F,G,H> | SchemaArr<G, "many">;
+    readonly paramsSchema: SchemaObj<I,J,K,L> | undefined;
+    readonly querySchema: SchemaObj<M,N,O,P> | undefined;
+    readonly handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
     constructor(args: {
         description: string,
-        request: Schema<A,B,C,D>, 
-        response: Schema<E,F,G,H>, 
-        params?: Schema<I,J,K,L>,
-        query?: Schema<M,N,O,P>,
-        handler: (request: D, param?: L, query?: P) => Promise<APIResponse<H>>
+        request: SchemaObj<A,B,C,D>, 
+        response: SchemaObj<E,F,G,H> | SchemaArr<G, "many">, 
+        params?: SchemaObj<I,J,K,L>,
+        query?: SchemaObj<M,N,O,P>,
+        handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
     }){
         this.description = args.description;
         this.requestSchema = args.request;
@@ -58,6 +59,7 @@ export class RouteHandler<
         // 1. parse request body
         const parseRequestBodyResult = this.requestSchema.safeParse(rawRequest.body);
         if (!parseRequestBodyResult.success) {
+            console.error(parseRequestBodyResult.error.message);
             return responder.respond(BAD_REQUEST_RESPONSE("Request does not match schema. Please see OPTIONS response."));
         }
         // 2. parse request params
@@ -67,7 +69,7 @@ export class RouteHandler<
             if (parseRequestParamsResult.success) {
                 params = parseRequestParamsResult.data;
             } else {
-                return responder.respond(BAD_REQUEST_RESPONSE("Params does not match schema. Please see OPTIONS response."));
+                return responder.respond(BAD_REQUEST_RESPONSE("Params do not match schema. Please see OPTIONS response."));
             }
         }
         // 3. parse request query, but only if present in request
@@ -84,13 +86,17 @@ export class RouteHandler<
         }
         // run the handler
         const result = await this.handler(parseRequestBodyResult.data, params, query);
-        // parse and return response
-        const parseResponseData = this.responseSchema.safeParse(result.data);
-        if (parseResponseData.success) {
-            return responder.respond(result);    
+        // parse result (verify against schema) if success response & respond
+        if (([httpResponseStatus.OK, httpResponseStatus.CREATED, httpResponseStatus.NO_CONTENT] as number[]).includes(result.status)) {
+            const parseResponseData = this.responseSchema.safeParse(result.data);
+            if (parseResponseData.success) {
+                return responder.respond(result);
+            } else {
+                console.error("Success response does not match schema.");
+                return responder.respond(INTERNAL_SERVER_ERROR_RESPONSE("Something went wrong in response."));
+            }    
         } else {
-            console.error("Success response does not match schema.");
-            return responder.respond(INTERNAL_SERVER_ERROR_RESPONSE("Something went wrong in response."));
+            return responder.respond(result); 
         }
     }
 }

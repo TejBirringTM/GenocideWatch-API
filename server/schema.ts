@@ -1,15 +1,10 @@
-import { UnknownKeysParam, ZodObject, ZodRawShape, ZodTypeAny, ZodUndefined } from "zod";
+import { ArrayCardinality, UnknownKeysParam, ZodAny, ZodArray, ZodObject, ZodRawShape, ZodTypeAny, ZodUndefined } from "zod";
 
-export type Schema<
+export type SchemaObj<
     A extends ZodRawShape,
     B extends UnknownKeysParam,
     C extends ZodTypeAny,
     D,
 > = ZodObject<A,B,C,D,D>;
 
-// export type OptionalSchema<
-//     F extends ZodRawShape,
-//     G extends UnknownKeysParam,
-//     H extends ZodTypeAny,
-//     I,
-// > = Schema<F,G,H,I> | ZodUndefined;
+export type SchemaArr<A extends ZodTypeAny, B extends ArrayCardinality> = ZodArray<A, B>
