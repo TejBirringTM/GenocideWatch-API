@@ -38,8 +38,8 @@ export type $EvidenceType = {
 const EvidenceType: $EvidenceType = $.makeType<$EvidenceType>(_.spec, "a2da2ca2-7b1e-11ee-87fe-a5191e891757", _.syntax.literal);
 
 export type $BaseλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
-  "notes": $.PropertyDesc<$.ArrayType<_std.$str>, $.Cardinality.AtMostOne, false, false, false, false>;
   "tags": $.PropertyDesc<$.ArrayType<_std.$str>, $.Cardinality.AtMostOne, false, false, false, false>;
+  "notes": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
 }>;
 type $Base = $.ObjectType<"default::Base", $BaseλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
@@ -52,16 +52,21 @@ export type $EvidenceλShape = $.typeutil.flatten<$BaseλShape & {
   "contentHash": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, true, false>;
   "contentType": $.PropertyDesc<$ContentType, $.Cardinality.One, false, false, true, false>;
   "evidenceType": $.PropertyDesc<$EvidenceType, $.Cardinality.One, false, false, false, false>;
-  "objectPath": $.PropertyDesc<_std.$uuid, $.Cardinality.One, false, false, true, false>;
-  "producedDateTime": $.PropertyDesc<_std.$datetime, $.Cardinality.AtMostOne, false, false, false, false>;
-  "producedGeoCoord": $.PropertyDesc<$.TupleType<[_std.$float32, _std.$float32]>, $.Cardinality.AtMostOne, false, false, false, false>;
   "title": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "authors": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
-  "producers": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
+  "context": $.LinkDesc<$GenocideContext, $.Cardinality.One, {}, false, false,  false, false>;
+  "individualPublishers": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
+  "organisationalPublishers": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
+  "contentURL": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, true, false>;
+  "dateTime": $.PropertyDesc<_std.$datetime, $.Cardinality.AtMostOne, false, false, false, false>;
+  "geoCoord": $.PropertyDesc<$.NamedTupleType<{lat: _std.$float32, lng: _std.$float32}>, $.Cardinality.AtMostOne, false, false, false, false>;
+  "<published[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authored[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
-  "<produced[is Organisation]": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<testimonies[is GenocideContext]": $.LinkDesc<$GenocideContext, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<published[is Organisation]": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authored": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
-  "<produced": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<published": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<testimonies": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
 type $Evidence = $.ObjectType<"default::Evidence", $EvidenceλShape, null, [
   ...$Base['__exclusives__'],
@@ -69,6 +74,22 @@ type $Evidence = $.ObjectType<"default::Evidence", $EvidenceλShape, null, [
 const $Evidence = $.makeType<$Evidence>(_.spec, "a2da6195-7b1e-11ee-b8cb-19ddc925c450", _.syntax.literal);
 
 const Evidence: $.$expr_PathNode<$.TypeSet<$Evidence, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Evidence, $.Cardinality.Many), null);
+
+export type $GenocideContextλShape = $.typeutil.flatten<$BaseλShape & {
+  "slug": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "testimonies": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
+  "mapDefaultGeoCoord": $.PropertyDesc<$.NamedTupleType<{lat: _std.$float32, lng: _std.$float32}>, $.Cardinality.AtMostOne, false, false, false, false>;
+  "mapDefaultZoom": $.PropertyDesc<_std.$int16, $.Cardinality.AtMostOne, false, false, false, false>;
+  "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "<context[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<context": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+}>;
+type $GenocideContext = $.ObjectType<"default::GenocideContext", $GenocideContextλShape, null, [
+  ...$Base['__exclusives__'],
+]>;
+const $GenocideContext = $.makeType<$GenocideContext>(_.spec, "da089f16-7c09-11ee-9a6b-6f65ccba15c5", _.syntax.literal);
+
+const GenocideContext: $.$expr_PathNode<$.TypeSet<$GenocideContext, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($GenocideContext, $.Cardinality.Many), null);
 
 export type $OnlinePresenceλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
   "email": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
@@ -78,8 +99,8 @@ export type $OnlinePresenceλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4f
   "locals": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
   "patreon": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
   "rumble": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
-  "twittter": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
   "website": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "twitter": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
 }>;
 type $OnlinePresence = $.ObjectType<"default::OnlinePresence", $OnlinePresenceλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
@@ -90,9 +111,12 @@ const OnlinePresence: $.$expr_PathNode<$.TypeSet<$OnlinePresence, $.Cardinality.
 
 export type $IndividualλShape = $.typeutil.flatten<$BaseλShape & $OnlinePresenceλShape & {
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "published": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
   "authored": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
   "<authors[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<individualPublishers[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authors": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<individualPublishers": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
 type $Individual = $.ObjectType<"default::Individual", $IndividualλShape, null, [
   ...$Base['__exclusives__'],
@@ -104,9 +128,9 @@ const Individual: $.$expr_PathNode<$.TypeSet<$Individual, $.Cardinality.Many>, n
 
 export type $OrganisationλShape = $.typeutil.flatten<$BaseλShape & $OnlinePresenceλShape & {
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
-  "produced": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
-  "<producers[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
-  "<producers": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+  "published": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
+  "<organisationalPublishers[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<organisationalPublishers": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
 type $Organisation = $.ObjectType<"default::Organisation", $OrganisationλShape, null, [
   ...$Base['__exclusives__'],
@@ -118,13 +142,14 @@ const Organisation: $.$expr_PathNode<$.TypeSet<$Organisation, $.Cardinality.Many
 
 
 
-export { ContentType, EvidenceType, $Base, Base, $Evidence, Evidence, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation };
+export { ContentType, EvidenceType, $Base, Base, $Evidence, Evidence, $GenocideContext, GenocideContext, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation };
 
 type __defaultExports = {
   "ContentType": typeof ContentType;
   "EvidenceType": typeof EvidenceType;
   "Base": typeof Base;
   "Evidence": typeof Evidence;
+  "GenocideContext": typeof GenocideContext;
   "OnlinePresence": typeof OnlinePresence;
   "Individual": typeof Individual;
   "Organisation": typeof Organisation
@@ -134,6 +159,7 @@ const __defaultExports: __defaultExports = {
   "EvidenceType": EvidenceType,
   "Base": Base,
   "Evidence": Evidence,
+  "GenocideContext": GenocideContext,
   "OnlinePresence": OnlinePresence,
   "Individual": Individual,
   "Organisation": Organisation

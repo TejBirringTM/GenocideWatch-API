@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { ArrayOfMaybeEmptyText, ArrayOfNeverEmptyText, UUID } from "./common";
+import { ArrayOfNeverEmptyText, MaybeEmptyText, UUID } from "./common";
 
 export const Base = z.object({
     id: UUID,
-    notes: ArrayOfMaybeEmptyText,
-    tags: ArrayOfNeverEmptyText
+    notes: MaybeEmptyText.nullish(),
+    tags: ArrayOfNeverEmptyText.nullish()
 });

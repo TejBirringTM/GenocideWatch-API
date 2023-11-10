@@ -8,7 +8,7 @@ module default {
 
     type GenocideContext extending Base {
         required slug: str;
-        required people: str;
+        required name: str;
         mapDefaultGeoCoord: tuple<lat: float32, lng: float32>;
         mapDefaultZoom: int16;
         multi link testimonies := .<context[is Evidence];
@@ -69,7 +69,7 @@ module default {
         linkedIn: str;
         instagram: str;
         facebook: str;
-        twittter: str;
+        twitter: str;
         website: str;
         email: str;
         rumble: str;
