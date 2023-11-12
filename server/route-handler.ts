@@ -1,22 +1,20 @@
-import { UnknownKeysParam, ZodObject, ZodRawShape, ZodTypeAny } from "zod";
+import { UnknownKeysParam, ZodObject, ZodRawShape, ZodTypeAny, z } from "zod";
 import express from "express";
 import expressCore from "express-serve-static-core";
 import { BAD_REQUEST_RESPONSE, APIResponse, makeResponder, INTERNAL_SERVER_ERROR_RESPONSE } from "./response";
 import { SchemaArr, SchemaObj } from "./schema";
 import { httpResponseStatus } from "./http";
 
-
 type Request = express.Request;
 type Response = express.Response;
 type RouteParameters = expressCore.ParamsDictionary;
-
 
 export class RouteHandler<
     A extends ZodRawShape,
     B extends UnknownKeysParam,
     C extends ZodTypeAny,
     D,
-
+    
     E extends ZodRawShape,
     F extends UnknownKeysParam,
     G extends ZodTypeAny,
@@ -34,14 +32,15 @@ export class RouteHandler<
 > {
     readonly description: string
     readonly requestSchema: SchemaObj<A,B,C,D>;
-    readonly responseSchema: SchemaObj<E,F,G,H> | SchemaArr<G, "many">;
+    readonly responseSchema: SchemaObj<E,F,G,H> | SchemaArr<G, "many"> | undefined;
     readonly paramsSchema: SchemaObj<I,J,K,L> | undefined;
     readonly querySchema: SchemaObj<M,N,O,P> | undefined;
     readonly handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
+
     constructor(args: {
         description: string,
-        request: SchemaObj<A,B,C,D>, 
-        response: SchemaObj<E,F,G,H> | SchemaArr<G, "many">, 
+        request: SchemaObj<A,B,C,D>,
+        response?: SchemaObj<E,F,G,H> | SchemaArr<G, "many">, 
         params?: SchemaObj<I,J,K,L>,
         query?: SchemaObj<M,N,O,P>,
         handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
@@ -87,7 +86,7 @@ export class RouteHandler<
         // run the handler
         const result = await this.handler(parseRequestBodyResult.data, params, query);
         // parse result (verify against schema) if success response & respond
-        if (([httpResponseStatus.OK, httpResponseStatus.CREATED, httpResponseStatus.NO_CONTENT] as number[]).includes(result.status)) {
+        if (this.responseSchema && ([httpResponseStatus.OK, httpResponseStatus.CREATED, httpResponseStatus.NO_CONTENT] as number[]).includes(result.status)) {
             const parseResponseData = this.responseSchema.safeParse(result.data);
             if (parseResponseData.success) {
                 return responder.respond(result);
@@ -150,7 +149,6 @@ export function makeRouteHandler<
     N extends UnknownKeysParam,
     O extends ZodTypeAny,
     P  
->(
-    ...args: ConstructorParameters<typeof RouteHandler< A,B,C,D, E,F,G,H, I,J,K,L, M,N,O,P >>) {
-    return new RouteHandler(...args);
+>(...args: ConstructorParameters<typeof RouteHandler< A,B,C,D, E,F,G,H, I,J,K,L, M,N,O,P >>) {
+        return new RouteHandler(...args);
 }
