@@ -41,21 +41,15 @@ module default {
     # 
     type Evidence extending Base {
         # information about the uploaded evidence file
-        required contentURL: str {
-            readonly := true;
-        }
-        required contentType: ContentType {
-            readonly := true;
-        }        
-        required contentHash: str {
-            readonly := true;
-        }
+        required contentURL: str;
+        required contentType: ContentType;
+        required contentHash: str;
         # context that the evidence pertains to
         required context: GenocideContext;
         # information about the evidence
         required title: str;
         required evidenceType: EvidenceType;
-        # spatiotemporal info
+        # geospatial info
         dateTime: datetime;
         geoCoord: tuple<lat: float32, lng: float32>;
         # contributors
