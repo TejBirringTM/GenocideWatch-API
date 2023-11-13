@@ -1,6 +1,7 @@
 import { UnknownKeysParam, ZodRawShape, ZodTypeAny } from "zod";
 import { RouteHandler } from "./route-handler";
 import { HttpRequestMethod } from "./http";
+import { UserRole } from "./roles";
 
 export type Route<
     A extends ZodRawShape,
@@ -22,7 +23,8 @@ export type Route<
 > = {
     method: HttpRequestMethod,
     path: string,
-    handler: RouteHandler<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>
+    handler: RouteHandler<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>,
+    minimumRole: UserRole
 };
 
 export type AnyRoute<TReq = any, TRes = any, TParams = any, TQry = any> = Route<
