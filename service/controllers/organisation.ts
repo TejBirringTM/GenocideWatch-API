@@ -1,16 +1,16 @@
 import { c, e } from "../../libs/edgedb";
-import { Individual } from "../../model/individual";
+import { Organisation } from "../../model/organisation";
 import { createCRUDLRoutes } from "../utils/create-crudl-routes";
 
-export const individualRoutes = createCRUDLRoutes(e.Individual, Individual, {
+export const organisationRoutes = createCRUDLRoutes(e.Organisation, Organisation, {
     read: true,
     list: true,
     delete: true,
     async create(request) {
-        return e.insert(e.Individual, request).run(c);
+        return e.insert(e.Organisation, request).run(c);
     },
     async update(id, request) {
-        return e.update(e.Individual, (gc) => ({
+        return e.update(e.Organisation, (gc) => ({
             filter_single: {
                 id
             },
