@@ -3,18 +3,25 @@ import { GenocideContext } from "../../model/genocide-context";
 import { createCRUDLRoutes } from "../utils/create-crudl-routes";
 
 export const genocideContextRoutes = createCRUDLRoutes(e.GenocideContext, GenocideContext, {
-    read: true,
-    list: true,
-    delete: true,
-    async create(request) {
-        return e.insert(e.GenocideContext, request).run(c);
+    read: {
+        access: "Public"
     },
-    async update(id, request) {
-        return e.update(e.GenocideContext, (gc) => ({
-            filter_single: {
-                id
-            },
-            set: request
-        })).run(c);
+    list: {
+        access: "Public"
+    },
+    delete: {
+        access: "Editor/Reviewer"
+    },
+    create: {
+        access: "Contributor",
+        transform(request) {
+            return request;
+        }
+    },
+    update: {
+        access: "Contributor",
+        transform(request) {
+            return request;
+        }
     }
 });

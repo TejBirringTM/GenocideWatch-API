@@ -3,18 +3,25 @@ import { Organisation } from "../../model/organisation";
 import { createCRUDLRoutes } from "../utils/create-crudl-routes";
 
 export const organisationRoutes = createCRUDLRoutes(e.Organisation, Organisation, {
-    read: true,
-    list: true,
-    delete: true,
-    async create(request) {
-        return e.insert(e.Organisation, request).run(c);
+    read: {
+        access: "Public"
     },
-    async update(id, request) {
-        return e.update(e.Organisation, (gc) => ({
-            filter_single: {
-                id
-            },
-            set: request
-        })).run(c);
-    }    
+    list: {
+        access: "Public"
+    },
+    delete: {
+        access: "Editor/Reviewer"
+    },
+    create: {
+        access: "Contributor",
+        transform(request) {
+            return request;
+        }
+    },
+    update: {
+        access: "Contributor",
+        transform(request) {
+            return request;
+        }
+    }
 });
