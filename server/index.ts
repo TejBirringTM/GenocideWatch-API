@@ -112,4 +112,4 @@ export async function makeService(args: {
 
 export { makeRouteHandler } from "./route-handler";
 export { INTERNAL_SERVER_ERROR_RESPONSE, BAD_REQUEST_RESPONSE, NOT_FOUND_RESPONSE, SUCCESS_RESPONSE, NOT_IMPLEMENTED_RESPONSE } from "./response";
-export { APIResponse } from "./response"
+export { APIResponse } from "./response";
