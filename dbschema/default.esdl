@@ -1,11 +1,14 @@
 module default {
     scalar type ContentType extending enum<Image, Video, Audio, Document, Dataset>;
+    scalar type UserRole extending enum<Admin, Editor, Viewer>;
 
+    #
     abstract type Base {
         notes: str;
         tags: array<str>;
     }
 
+    #
     type GenocideContext extending Base {
         required slug: str;
         required name: str;
@@ -14,6 +17,7 @@ module default {
         multi link testimonies := .<context[is Evidence];
     }
 
+    #
     scalar type EvidenceType extending enum<
         DirectEvidencePhotographFootage, 
         DirectEvidenceFilmFootage, 
@@ -71,14 +75,23 @@ module default {
         patreon: str;
     }
 
+    #
     type Individual extending Base, OnlinePresence {
         required name: str;
         multi link authored := .<authors[is Evidence];
         multi link published := .<individualPublishers[is Evidence];
     }
 
+    #
     type Organisation extending Base, OnlinePresence {
         required name: str;
         multi link published := .<organisationalPublishers[is Evidence];
+    }
+
+    #
+    type User extending Individual {
+        required firebaseAuthUID: str; 
+        required role: UserRole;
+        overloaded required email: str;
     }
 }
