@@ -1,6 +1,6 @@
 module default {
     scalar type ContentType extending enum<Image, Video, Audio, Document, Dataset>;
-    scalar type UserRole extending enum<Admin, Editor, Viewer>;
+    scalar type UserRole extending enum<Administrator, Editor, Contributor, User>;
 
     #
     abstract type Base {

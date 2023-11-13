@@ -10,7 +10,7 @@ export const individualRoutes = createCRUDLRoutes(e.Individual, Individual, {
         access: "Public"
     },
     delete: {
-        access: "Editor/Reviewer"
+        access: "Editor"
     },
     create: {
         access: "Contributor",

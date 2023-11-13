@@ -10,7 +10,7 @@ export const genocideContextRoutes = createCRUDLRoutes(e.GenocideContext, Genoci
         access: "Public"
     },
     delete: {
-        access: "Editor/Reviewer"
+        access: "Editor"
     },
     create: {
         access: "Contributor",

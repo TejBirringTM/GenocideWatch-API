@@ -10,7 +10,7 @@ export const organisationRoutes = createCRUDLRoutes(e.Organisation, Organisation
         access: "Public"
     },
     delete: {
-        access: "Editor/Reviewer"
+        access: "Editor"
     },
     create: {
         access: "Contributor",

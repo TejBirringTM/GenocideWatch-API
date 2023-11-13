@@ -1,6 +1,6 @@
 export type UserRole =      |
         "Administrator"     |   // everything
-        "Editor/Reviewer"   |   // allows delete
+        "Editor"            |   // allows delete
         "Contributor"       |   // no delete
         "User"              |   // read only if signed in
         "Public"            ;   // no need to sign in
@@ -8,4 +8,3 @@ export type UserRole =      |
 // function allow(route: UserRole, request: UserRole) : boolean {
 
 // }
-
