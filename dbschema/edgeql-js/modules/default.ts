@@ -37,6 +37,13 @@ export type $EvidenceType = {
 } & $.EnumType<"default::EvidenceType", ["DirectEvidencePhotographFootage", "DirectEvidenceFilmFootage", "DirectEvidenceAudioFootage", "DirectEvidenceMemo", "DirectEvidenceEmail", "DirectEvidenceSocialMediaPost", "DirectEvidenceWebsiteContent", "DirectEvidenceInterview", "DirectEvidenceWitnessStatement", "DirectEvidenceVlog", "DirectEvidenceOther", "IndirectEvidenceReport", "IndirectEvidenceResearchPaper", "IndirectEvidenceScientificStudy", "IndirectEvidenceSurveyData", "IndirectEvidenceExpertTestimony", "IndirectEvidenceFinancialRecord", "IndirectEvidenceMedicalRecord", "IndirectEvidenceGovernmentReport", "IndirectEvidencePublicRecord", "IndirectEvidenceOther"]>;
 const EvidenceType: $EvidenceType = $.makeType<$EvidenceType>(_.spec, "a2da2ca2-7b1e-11ee-87fe-a5191e891757", _.syntax.literal);
 
+export type $UserRole = {
+  "Admin": $.$expr_Literal<$UserRole>;
+  "Editor": $.$expr_Literal<$UserRole>;
+  "Viewer": $.$expr_Literal<$UserRole>;
+} & $.EnumType<"default::UserRole", ["Admin", "Editor", "Viewer"]>;
+const UserRole: $UserRole = $.makeType<$UserRole>(_.spec, "cd63684b-81cd-11ee-b4ab-335b04f56950", _.syntax.literal);
+
 export type $BaseλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
   "tags": $.PropertyDesc<$.ArrayType<_std.$str>, $.Cardinality.AtMostOne, false, false, false, false>;
   "notes": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
@@ -49,21 +56,23 @@ const $Base = $.makeType<$Base>(_.spec, "a2d4faf4-7b1e-11ee-9fca-09f428238db3", 
 const Base: $.$expr_PathNode<$.TypeSet<$Base, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Base, $.Cardinality.Many), null);
 
 export type $EvidenceλShape = $.typeutil.flatten<$BaseλShape & {
-  "contentHash": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, true, false>;
-  "contentType": $.PropertyDesc<$ContentType, $.Cardinality.One, false, false, true, false>;
+  "contentHash": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "contentType": $.PropertyDesc<$ContentType, $.Cardinality.One, false, false, false, false>;
   "evidenceType": $.PropertyDesc<$EvidenceType, $.Cardinality.One, false, false, false, false>;
   "title": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "authors": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "context": $.LinkDesc<$GenocideContext, $.Cardinality.One, {}, false, false,  false, false>;
   "individualPublishers": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "organisationalPublishers": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
-  "contentURL": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, true, false>;
+  "contentURL": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "dateTime": $.PropertyDesc<_std.$datetime, $.Cardinality.AtMostOne, false, false, false, false>;
   "geoCoord": $.PropertyDesc<$.NamedTupleType<{lat: _std.$float32, lng: _std.$float32}>, $.Cardinality.AtMostOne, false, false, false, false>;
   "<published[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authored[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "<testimonies[is GenocideContext]": $.LinkDesc<$GenocideContext, $.Cardinality.Many, {}, false, false,  false, false>;
   "<published[is Organisation]": $.LinkDesc<$Organisation, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<published[is User]": $.LinkDesc<$User, $.Cardinality.Many, {}, false, false,  false, false>;
+  "<authored[is User]": $.LinkDesc<$User, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authored": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
   "<published": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
   "<testimonies": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
@@ -140,28 +149,44 @@ const $Organisation = $.makeType<$Organisation>(_.spec, "a2f2e186-7b1e-11ee-a1ff
 
 const Organisation: $.$expr_PathNode<$.TypeSet<$Organisation, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Organisation, $.Cardinality.Many), null);
 
+export type $UserλShape = $.typeutil.flatten<$IndividualλShape & {
+  "email": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "firebaseAuthUID": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "role": $.PropertyDesc<$UserRole, $.Cardinality.One, false, false, false, false>;
+}>;
+type $User = $.ObjectType<"default::User", $UserλShape, null, [
+  ...$Individual['__exclusives__'],
+]>;
+const $User = $.makeType<$User>(_.spec, "cd63fb65-81cd-11ee-92e1-9f36473f3c9c", _.syntax.literal);
+
+const User: $.$expr_PathNode<$.TypeSet<$User, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($User, $.Cardinality.Many), null);
 
 
-export { ContentType, EvidenceType, $Base, Base, $Evidence, Evidence, $GenocideContext, GenocideContext, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation };
+
+export { ContentType, EvidenceType, UserRole, $Base, Base, $Evidence, Evidence, $GenocideContext, GenocideContext, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation, $User, User };
 
 type __defaultExports = {
   "ContentType": typeof ContentType;
   "EvidenceType": typeof EvidenceType;
+  "UserRole": typeof UserRole;
   "Base": typeof Base;
   "Evidence": typeof Evidence;
   "GenocideContext": typeof GenocideContext;
   "OnlinePresence": typeof OnlinePresence;
   "Individual": typeof Individual;
-  "Organisation": typeof Organisation
+  "Organisation": typeof Organisation;
+  "User": typeof User
 };
 const __defaultExports: __defaultExports = {
   "ContentType": ContentType,
   "EvidenceType": EvidenceType,
+  "UserRole": UserRole,
   "Base": Base,
   "Evidence": Evidence,
   "GenocideContext": GenocideContext,
   "OnlinePresence": OnlinePresence,
   "Individual": Individual,
-  "Organisation": Organisation
+  "Organisation": Organisation,
+  "User": User
 };
 export default __defaultExports;
