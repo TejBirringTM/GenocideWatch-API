@@ -93,16 +93,24 @@ export function createCRUDLRoutes<
                 params: z.object({
                     id: UUID
                 }),
+                query: z.object({
+                    deep: z.literal("true")
+                }),
                 async handler(request, params, query) {
                     // @ts-ignore
                     const id = params.id;
                     try {
-                        const response = (await c.query(`SELECT ${entityPath} {**} FILTER .id = <uuid>'${id}'`))?.[0];
-                        console.info(`Database response:\n`, response);
-                        if (!response) {
+                        let dbResponse;
+                        if (query?.deep) {
+                            dbResponse = (await c.query(`SELECT ${entityPath} {**} FILTER .id = <uuid>'${id}'`))?.[0];
+                        } else {
+                            dbResponse = (await c.query(`SELECT ${entityPath} {*} FILTER .id = <uuid>'${id}'`))?.[0];
+                        }
+                        console.info(`Database response:\n`, dbResponse);
+                        if (!dbResponse) {
                             return NOT_FOUND_RESPONSE(`Not found: ${entityName} (${id})`);
                         } else {
-                            return SUCCESS_RESPONSE(`Read: ${entityName} (${id})`, response);
+                            return SUCCESS_RESPONSE(`Read: ${entityName} (${id})`, dbResponse);
                         }                        
                     } catch (e) {
                         console.error(`Database error:\n`, e);
@@ -207,9 +215,17 @@ export function createCRUDLRoutes<
                 description: ``,
                 request: z.object({}),
                 response: z.any().array(),
+                query: z.object({
+                    deep: z.literal("true")
+                }),
                 async handler(request, params, query) {
                     try {
-                        const dbResponse = await c.query(`SELECT ${entityPath} {**}`);
+                        let dbResponse;
+                        if (query?.deep) {
+                            dbResponse = await c.query(`SELECT ${entityPath} {**}`)
+                        } else {
+                            dbResponse = await c.query(`SELECT ${entityPath} {*}`)
+                        }
                         console.info(`Database response:\n`, dbResponse);
                         if (!dbResponse) {
                             throw ERROR_NO_RESPONSE_FROM_DB;
