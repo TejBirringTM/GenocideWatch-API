@@ -53,13 +53,13 @@ export function createCRUDLRoutes<
         routes.push({
             method: "POST",
             path: entitySlug,
-            minimumRole: specification.create.access,
             handler: makeRouteHandler({
                 description: ``,
                 request: <any>parseSchema.omit({id: true}), // TODO: fix typing
                 response: z.object({
                     id: UUID
                 }),
+                minimumUserRole: specification.create.access,
                 async handler(request, params, query) {
                     try {
                         const createData = specification.create ? specification.create.transform(request) : request;
@@ -85,7 +85,6 @@ export function createCRUDLRoutes<
         routes.push({
             method: "GET",
             path: entitySlug + "/:id",
-            minimumRole: specification.read.access,
             handler: makeRouteHandler({
                 description: ``,
                 request: z.object({}),
@@ -96,6 +95,7 @@ export function createCRUDLRoutes<
                 query: z.object({
                     deep: z.literal("true")
                 }),
+                minimumUserRole: specification.read.access,
                 async handler(request, params, query) {
                     // @ts-ignore
                     const id = params.id;
@@ -126,14 +126,14 @@ export function createCRUDLRoutes<
         routes.push({
             method: "PATCH",
             path: entitySlug + "/:id",
-            minimumRole: specification.update.access,
             handler: makeRouteHandler({
                 description: ``,
                 request: <any>parseSchema.partial(), // TODO: fix typing
                 response: z.object({}),
                 params: z.object({
                     id: UUID
-                }),            
+                }),
+                minimumUserRole: specification.update.access,
                 async handler(request, params, query) {
                     // @ts-ignore
                     const id = params.id;
@@ -167,7 +167,6 @@ export function createCRUDLRoutes<
         routes.push({
             method: "DELETE",
             path: entitySlug + "/:id",
-            minimumRole: specification.delete.access,
             handler: makeRouteHandler({
                 description: ``,
                 request: z.object({}),
@@ -177,6 +176,7 @@ export function createCRUDLRoutes<
                 params: z.object({
                     id: UUID
                 }),
+                minimumUserRole: specification.delete.access,
                 async handler(request, params, query) {
                     // @ts-ignore
                     const id = params.id;
@@ -210,7 +210,6 @@ export function createCRUDLRoutes<
         routes.push({
             method: "GET",
             path: entitySlug,
-            minimumRole: specification.list.access,
             handler: makeRouteHandler({
                 description: ``,
                 request: z.object({}),
@@ -218,6 +217,7 @@ export function createCRUDLRoutes<
                 query: z.object({
                     deep: z.literal("true")
                 }),
+                minimumUserRole: specification.list.access,
                 async handler(request, params, query) {
                     try {
                         let dbResponse;

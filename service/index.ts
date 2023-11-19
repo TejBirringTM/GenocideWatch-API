@@ -5,6 +5,7 @@ import { genocideContextRoutes } from "./controllers/genocide-context";
 import { individualRoutes } from "./controllers/individual";
 import { organisationRoutes } from "./controllers/organisation";
 import { evidenceRoutes } from "./controllers/evidence";
+import { userRoutes } from "./controllers/user";
 
 makeService({
     name: "Content Service",
@@ -14,6 +15,7 @@ makeService({
         ...genocideContextRoutes,
         ...individualRoutes,
         ...organisationRoutes,
-        ...evidenceRoutes
+        ...evidenceRoutes,
+        ...userRoutes
     ]
 }, configs.service.port);
