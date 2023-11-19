@@ -7,4 +7,4 @@ export type SchemaObj<
     D,
 > = ZodObject<A,B,C,D,D>;
 
-export type SchemaArr<A extends ZodTypeAny, B extends ArrayCardinality> = ZodArray<A, B>
+export type SchemaArr<A extends ZodTypeAny, B extends ArrayCardinality> = ZodArray<A, B>;

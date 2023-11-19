@@ -1,9 +1,11 @@
 import { UnknownKeysParam, ZodObject, ZodRawShape, ZodTypeAny, z } from "zod";
 import express from "express";
 import expressCore from "express-serve-static-core";
-import { BAD_REQUEST_RESPONSE, APIResponse, makeResponder, INTERNAL_SERVER_ERROR_RESPONSE } from "./response";
+import { BAD_REQUEST_RESPONSE, APIResponse, makeResponder, INTERNAL_SERVER_ERROR_RESPONSE, UNAUTHORISED_RESPONSE } from "./response";
 import { SchemaArr, SchemaObj } from "./schema";
 import { httpResponseStatus } from "./http";
+import { UserRole } from "./roles";
+import configs from "../configs";
 
 type Request = express.Request;
 type Response = express.Response;
@@ -35,7 +37,8 @@ export class RouteHandler<
     readonly responseSchema: SchemaObj<E,F,G,H> | SchemaArr<G, "many"> | undefined;
     readonly paramsSchema: SchemaObj<I,J,K,L> | undefined;
     readonly querySchema: SchemaObj<M,N,O,P> | undefined;
-    readonly handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
+    readonly handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>;
+    readonly minimumUserRole: UserRole;
 
     constructor(args: {
         description: string,
@@ -43,7 +46,8 @@ export class RouteHandler<
         response?: SchemaObj<E,F,G,H> | SchemaArr<G, "many">, 
         params?: SchemaObj<I,J,K,L>,
         query?: SchemaObj<M,N,O,P>,
-        handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>
+        handler: (request: D, params?: L, query?: P) => Promise<APIResponse<H>>,
+        minimumUserRole: UserRole
     }){
         this.description = args.description;
         this.requestSchema = args.request;
@@ -51,10 +55,24 @@ export class RouteHandler<
         this.paramsSchema = args.params;
         this.querySchema = args.query;
         this.handler = args.handler;
+        this.minimumUserRole = args.minimumUserRole;
     }
     async handle(request: Request, response: Response) {
         const rawRequest : Request | undefined = request;
         const responder = makeResponder<H|undefined>(response);
+        // 0. authenticate request
+        //  check token exists and extract
+        if (!request.headers.authorization) {
+            return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. No token present."));
+        }
+        const token = request.headers.authorization.replace(/bearer\s/i, "");
+        let tokenValid = false;
+        // check if token is a client API key
+        tokenValid = configs.clientKeys.includes(token);
+        // fail if token not valid
+        if (!tokenValid) {
+            return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
+        }
         // 1. parse request body
         const parseRequestBodyResult = this.requestSchema.safeParse(rawRequest.body);
         if (!parseRequestBodyResult.success) {

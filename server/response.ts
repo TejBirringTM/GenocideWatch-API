@@ -47,3 +47,9 @@ export const SUCCESS_RESPONSE = <T>(msg: string, data: T) => ({
     userFriendlyMessage: msg,
     data: data
 }) as const;
+
+export const UNAUTHORISED_RESPONSE = (msg: string) => ({
+    status: httpResponseStatus.UNAUTHORISED,
+    userFriendlyMessage: msg,
+    data: undefined
+}) as const;
