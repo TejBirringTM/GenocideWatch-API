@@ -90,8 +90,8 @@ module default {
 
     #
     type User extending Individual {
-        required firebaseAuthUID: str; 
-        required role: UserRole;
         overloaded required email: str;
+        required role: UserRole;
+        awaitingDeletion: bool;
     }
 }

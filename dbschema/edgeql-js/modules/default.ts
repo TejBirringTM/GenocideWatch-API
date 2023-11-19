@@ -38,10 +38,11 @@ export type $EvidenceType = {
 const EvidenceType: $EvidenceType = $.makeType<$EvidenceType>(_.spec, "a2da2ca2-7b1e-11ee-87fe-a5191e891757", _.syntax.literal);
 
 export type $UserRole = {
-  "Admin": $.$expr_Literal<$UserRole>;
+  "Administrator": $.$expr_Literal<$UserRole>;
   "Editor": $.$expr_Literal<$UserRole>;
-  "Viewer": $.$expr_Literal<$UserRole>;
-} & $.EnumType<"default::UserRole", ["Admin", "Editor", "Viewer"]>;
+  "Contributor": $.$expr_Literal<$UserRole>;
+  "User": $.$expr_Literal<$UserRole>;
+} & $.EnumType<"default::UserRole", ["Administrator", "Editor", "Contributor", "User"]>;
 const UserRole: $UserRole = $.makeType<$UserRole>(_.spec, "cd63684b-81cd-11ee-b4ab-335b04f56950", _.syntax.literal);
 
 export type $BaseλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
@@ -151,8 +152,8 @@ const Organisation: $.$expr_PathNode<$.TypeSet<$Organisation, $.Cardinality.Many
 
 export type $UserλShape = $.typeutil.flatten<$IndividualλShape & {
   "email": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
-  "firebaseAuthUID": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "role": $.PropertyDesc<$UserRole, $.Cardinality.One, false, false, false, false>;
+  "awaitingDeletion": $.PropertyDesc<_std.$bool, $.Cardinality.AtMostOne, false, false, false, false>;
 }>;
 type $User = $.ObjectType<"default::User", $UserλShape, null, [
   ...$Individual['__exclusives__'],
