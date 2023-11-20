@@ -52,6 +52,7 @@ export type scalarAssignableBy<T extends $.ScalarType> =
   T extends _fts.$Language ? _fts.$Language : 
   T extends _fts.$ElasticLanguage ? _fts.$ElasticLanguage : 
   T extends _default.$UserRole ? _default.$UserRole : 
+  T extends _default.$IncidentType ? _default.$IncidentType : 
   T extends _default.$EvidenceType ? _default.$EvidenceType : 
   T extends _default.$ContentType ? _default.$ContentType : 
   T extends _cfg.$memory ? _cfg.$memory : 
@@ -105,6 +106,7 @@ export type scalarCastableFrom<T extends $.ScalarType> =
   T extends _fts.$Language ? _fts.$Language : 
   T extends _fts.$ElasticLanguage ? _fts.$ElasticLanguage : 
   T extends _default.$UserRole ? _default.$UserRole : 
+  T extends _default.$IncidentType ? _default.$IncidentType : 
   T extends _default.$EvidenceType ? _default.$EvidenceType : 
   T extends _default.$ContentType ? _default.$ContentType : 
   T extends _cfg.$memory ? _cfg.$memory : 
@@ -360,6 +362,12 @@ type getSharedParentScalar<A, B> =
   :
   A extends _default.$UserRole ?
     B extends _default.$UserRole ?
+    B
+    :
+    never
+  :
+  A extends _default.$IncidentType ?
+    B extends _default.$IncidentType ?
     B
     :
     never
@@ -683,6 +691,12 @@ function getSharedParentScalar<A extends $.ScalarType, B extends $.ScalarType>(a
     }
   if (a.__name__ === "default::UserRole") {
     if(b.__name__ === "default::UserRole") {
+      return b;
+    }
+    throw new Error(`Types are not castable: ${a.__name__}, ${b.__name__}`);
+    }
+  if (a.__name__ === "default::IncidentType") {
+    if(b.__name__ === "default::IncidentType") {
       return b;
     }
     throw new Error(`Types are not castable: ${a.__name__}, ${b.__name__}`);

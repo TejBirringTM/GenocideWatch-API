@@ -13,29 +13,52 @@ export type $ContentType = {
 const ContentType: $ContentType = $.makeType<$ContentType>(_.spec, "a2da001b-7b1e-11ee-9345-0d744e8d1976", _.syntax.literal);
 
 export type $EvidenceType = {
-  "DirectEvidencePhotographFootage": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceFilmFootage": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceAudioFootage": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceMemo": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceEmail": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceSocialMediaPost": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceWebsiteContent": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceInterview": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceWitnessStatement": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceVlog": $.$expr_Literal<$EvidenceType>;
-  "DirectEvidenceOther": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceReport": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceResearchPaper": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceScientificStudy": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceSurveyData": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceExpertTestimony": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceFinancialRecord": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceMedicalRecord": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceGovernmentReport": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidencePublicRecord": $.$expr_Literal<$EvidenceType>;
-  "IndirectEvidenceOther": $.$expr_Literal<$EvidenceType>;
-} & $.EnumType<"default::EvidenceType", ["DirectEvidencePhotographFootage", "DirectEvidenceFilmFootage", "DirectEvidenceAudioFootage", "DirectEvidenceMemo", "DirectEvidenceEmail", "DirectEvidenceSocialMediaPost", "DirectEvidenceWebsiteContent", "DirectEvidenceInterview", "DirectEvidenceWitnessStatement", "DirectEvidenceVlog", "DirectEvidenceOther", "IndirectEvidenceReport", "IndirectEvidenceResearchPaper", "IndirectEvidenceScientificStudy", "IndirectEvidenceSurveyData", "IndirectEvidenceExpertTestimony", "IndirectEvidenceFinancialRecord", "IndirectEvidenceMedicalRecord", "IndirectEvidenceGovernmentReport", "IndirectEvidencePublicRecord", "IndirectEvidenceOther"]>;
+  "Direct Evidence: Photograph Footage": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Film Footage": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Audio Footage": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Memo": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Email": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Social Media Post": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Website Content": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Interview": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Witness Statement": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Vlog": $.$expr_Literal<$EvidenceType>;
+  "Direct Evidence: Other": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Report": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Research Paper": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Scientific Study": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Survey Data": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Expert Testimony": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Financial Record": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Medical Record": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Government Report": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Public Record": $.$expr_Literal<$EvidenceType>;
+  "Indirect Evidence: Other": $.$expr_Literal<$EvidenceType>;
+} & $.EnumType<"default::EvidenceType", ["Direct Evidence: Photograph Footage", "Direct Evidence: Film Footage", "Direct Evidence: Audio Footage", "Direct Evidence: Memo", "Direct Evidence: Email", "Direct Evidence: Social Media Post", "Direct Evidence: Website Content", "Direct Evidence: Interview", "Direct Evidence: Witness Statement", "Direct Evidence: Vlog", "Direct Evidence: Other", "Indirect Evidence: Report", "Indirect Evidence: Research Paper", "Indirect Evidence: Scientific Study", "Indirect Evidence: Survey Data", "Indirect Evidence: Expert Testimony", "Indirect Evidence: Financial Record", "Indirect Evidence: Medical Record", "Indirect Evidence: Government Report", "Indirect Evidence: Public Record", "Indirect Evidence: Other"]>;
 const EvidenceType: $EvidenceType = $.makeType<$EvidenceType>(_.spec, "a2da2ca2-7b1e-11ee-87fe-a5191e891757", _.syntax.literal);
+
+export type $IncidentType = {
+  "Forced Labour": $.$expr_Literal<$IncidentType>;
+  "Cyberattack and Espionage": $.$expr_Literal<$IncidentType>;
+  "Surveillance": $.$expr_Literal<$IncidentType>;
+  "Verbal and Psychological Aggression": $.$expr_Literal<$IncidentType>;
+  "Vandalism": $.$expr_Literal<$IncidentType>;
+  "Sabotage and Arson": $.$expr_Literal<$IncidentType>;
+  "Environment Destruction": $.$expr_Literal<$IncidentType>;
+  "Civil Infrastructure Destruction": $.$expr_Literal<$IncidentType>;
+  "Assault": $.$expr_Literal<$IncidentType>;
+  "Armed Assault": $.$expr_Literal<$IncidentType>;
+  "Firearm Assault": $.$expr_Literal<$IncidentType>;
+  "Military Assault": $.$expr_Literal<$IncidentType>;
+  "Missile Strike and Bombardment": $.$expr_Literal<$IncidentType>;
+  "Chemical and Biological Attack": $.$expr_Literal<$IncidentType>;
+  "Torture": $.$expr_Literal<$IncidentType>;
+  "Sexual Violence": $.$expr_Literal<$IncidentType>;
+  "Desecration and Destruction of Heritage Site": $.$expr_Literal<$IncidentType>;
+  "Detention, Abduction, and Kidnapping": $.$expr_Literal<$IncidentType>;
+  "Dispossession, Theft, Robbery, and Extortion": $.$expr_Literal<$IncidentType>;
+} & $.EnumType<"default::IncidentType", ["Forced Labour", "Cyberattack and Espionage", "Surveillance", "Verbal and Psychological Aggression", "Vandalism", "Sabotage and Arson", "Environment Destruction", "Civil Infrastructure Destruction", "Assault", "Armed Assault", "Firearm Assault", "Military Assault", "Missile Strike and Bombardment", "Chemical and Biological Attack", "Torture", "Sexual Violence", "Desecration and Destruction of Heritage Site", "Detention, Abduction, and Kidnapping", "Dispossession, Theft, Robbery, and Extortion"]>;
+const IncidentType: $IncidentType = $.makeType<$IncidentType>(_.spec, "4eacb472-874f-11ee-ac60-f173ec89ab73", _.syntax.literal);
 
 export type $UserRole = {
   "Administrator": $.$expr_Literal<$UserRole>;
@@ -68,6 +91,7 @@ export type $EvidenceλShape = $.typeutil.flatten<$BaseλShape & {
   "contentURL": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "dateTime": $.PropertyDesc<_std.$datetime, $.Cardinality.AtMostOne, false, false, false, false>;
   "geoCoord": $.PropertyDesc<$.NamedTupleType<{lat: _std.$float32, lng: _std.$float32}>, $.Cardinality.AtMostOne, false, false, false, false>;
+  "incidentType": $.PropertyDesc<$.ArrayType<$IncidentType>, $.Cardinality.One, false, false, false, false>;
   "<published[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authored[is Individual]": $.LinkDesc<$Individual, $.Cardinality.Many, {}, false, false,  false, false>;
   "<testimonies[is GenocideContext]": $.LinkDesc<$GenocideContext, $.Cardinality.Many, {}, false, false,  false, false>;
@@ -91,6 +115,7 @@ export type $GenocideContextλShape = $.typeutil.flatten<$BaseλShape & {
   "mapDefaultGeoCoord": $.PropertyDesc<$.NamedTupleType<{lat: _std.$float32, lng: _std.$float32}>, $.Cardinality.AtMostOne, false, false, false, false>;
   "mapDefaultZoom": $.PropertyDesc<_std.$int16, $.Cardinality.AtMostOne, false, false, false, false>;
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "nTestimonies": $.PropertyDesc<_std.$int64, $.Cardinality.One, false, true, false, false>;
   "<context[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
   "<context": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
@@ -123,6 +148,8 @@ export type $IndividualλShape = $.typeutil.flatten<$BaseλShape & $OnlinePresen
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "published": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
   "authored": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
+  "nAuthored": $.PropertyDesc<_std.$int64, $.Cardinality.One, false, true, false, false>;
+  "nPublished": $.PropertyDesc<_std.$int64, $.Cardinality.One, false, true, false, false>;
   "<authors[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
   "<individualPublishers[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
   "<authors": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
@@ -139,6 +166,7 @@ const Individual: $.$expr_PathNode<$.TypeSet<$Individual, $.Cardinality.Many>, n
 export type $OrganisationλShape = $.typeutil.flatten<$BaseλShape & $OnlinePresenceλShape & {
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "published": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, true,  false, false>;
+  "nPublished": $.PropertyDesc<_std.$int64, $.Cardinality.One, false, true, false, false>;
   "<organisationalPublishers[is Evidence]": $.LinkDesc<$Evidence, $.Cardinality.Many, {}, false, false,  false, false>;
   "<organisationalPublishers": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
@@ -164,11 +192,12 @@ const User: $.$expr_PathNode<$.TypeSet<$User, $.Cardinality.Many>, null> = _.syn
 
 
 
-export { ContentType, EvidenceType, UserRole, $Base, Base, $Evidence, Evidence, $GenocideContext, GenocideContext, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation, $User, User };
+export { ContentType, EvidenceType, IncidentType, UserRole, $Base, Base, $Evidence, Evidence, $GenocideContext, GenocideContext, $OnlinePresence, OnlinePresence, $Individual, Individual, $Organisation, Organisation, $User, User };
 
 type __defaultExports = {
   "ContentType": typeof ContentType;
   "EvidenceType": typeof EvidenceType;
+  "IncidentType": typeof IncidentType;
   "UserRole": typeof UserRole;
   "Base": typeof Base;
   "Evidence": typeof Evidence;
@@ -181,6 +210,7 @@ type __defaultExports = {
 const __defaultExports: __defaultExports = {
   "ContentType": ContentType,
   "EvidenceType": EvidenceType,
+  "IncidentType": IncidentType,
   "UserRole": UserRole,
   "Base": Base,
   "Evidence": Evidence,
