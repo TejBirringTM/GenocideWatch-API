@@ -6,10 +6,13 @@ import { SchemaArr, SchemaObj } from "./schema";
 import { httpResponseStatus } from "./http";
 import { UserRole } from "./roles";
 import configs from "../configs";
+import auth from "../libs/firebase-auth";
 
 type Request = express.Request;
 type Response = express.Response;
 type RouteParameters = expressCore.ParamsDictionary;
+
+
 
 export class RouteHandler<
     A extends ZodRawShape,
@@ -60,19 +63,33 @@ export class RouteHandler<
     async handle(request: Request, response: Response) {
         const rawRequest : Request | undefined = request;
         const responder = makeResponder<H|undefined>(response);
-        // 0. authenticate request
-        //  check token exists and extract
-        if (!request.headers.authorization) {
+        // 0. authenticate request: client
+        if (!request.headers["client-key"]) {
             return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. No token present."));
         }
-        const token = request.headers.authorization.replace(/bearer\s/i, "");
-        let tokenValid = false;
-        // check if token is a client API key
-        tokenValid = configs.clientKeys.includes(token);
-        // fail if token not valid
-        if (!tokenValid) {
+        const clientKey = request.headers["client-key"];
+        if (typeof clientKey !== "string" || !configs.clientKeys.includes(clientKey)) {
             return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
+        } 
+        // 0. authenticate request: user auth
+        if (this.minimumUserRole !== "Public") {
+            if (!request.headers["authorization"]) {
+                return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. No token present."));
+            }
+            const rawAuthToken = request.headers.authorization.replace(/bearer\s/i, "");
+            const authToken = await auth.verifyIdToken(rawAuthToken);
+            switch (this.minimumUserRole) {
+                case "Administrator":
+                case "Contributor":
+                case "Editor":
+                case "User":
+                default:
+                    return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
+            }
         }
+
+        
+        
         // 1. parse request body
         const parseRequestBodyResult = this.requestSchema.safeParse(rawRequest.body);
         if (!parseRequestBodyResult.success) {
