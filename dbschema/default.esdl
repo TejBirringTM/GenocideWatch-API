@@ -96,6 +96,7 @@ module default {
         rumble: str;
         locals: str;
         patreon: str;
+        telegram: str;
     }
 
     #

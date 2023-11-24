@@ -10,5 +10,6 @@ export const OnlinePresence = z.object({
     patreon: URL.nullish(),
     rumble: URL.nullish(),
     twitter: URL.nullish(),
-    website: URL.nullish()
+    website: URL.nullish(),
+    telegram: URL.nullish(),
 });

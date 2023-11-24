@@ -136,6 +136,7 @@ export type $OnlinePresenceλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4f
   "rumble": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
   "website": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
   "twitter": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "telegram": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
 }>;
 type $OnlinePresence = $.ObjectType<"default::OnlinePresence", $OnlinePresenceλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
