@@ -77,14 +77,18 @@ export class RouteHandler<
                 return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. No token present."));
             }
             const rawAuthToken = request.headers.authorization.replace(/bearer\s/i, "");
-            const authToken = await auth.verifyIdToken(rawAuthToken);
-            switch (this.minimumUserRole) {
-                case "Administrator":
-                case "Contributor":
-                case "Editor":
-                case "User":
-                default:
-                    return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
+            try {
+                const authToken = await auth.verifyIdToken(rawAuthToken);
+                switch (this.minimumUserRole) {
+                    case "Administrator":
+                    case "Contributor":
+                    case "Editor":
+                    case "User":
+                    default:
+                        return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
+                }
+            } catch (e) {
+                return responder.respond(UNAUTHORISED_RESPONSE("Unauthorised request. Token invalid."));
             }
         }
 
